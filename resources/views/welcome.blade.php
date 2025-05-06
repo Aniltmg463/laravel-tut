@@ -1,92 +1,67 @@
-<h1>Home: first page</h1>
-
-{{ 5+ 5}}
-
-<br> <br>
-
-{{" Hello World!" }}
-
-<br> <br>
+{{-- <h1>HomePage</h1> --}}
 
 
-{{" <h1> Hello World! </h1> " }} {{-- very secure way but it print as it is--}} {{-- comment alt+shit+a to comment all n ctrl+//--}}
 
-<br> <br>
-{!! " <h1> Hello World! </h1> " !!}
-
-<br> <br>
-{{-- {!! "<script> alert('Hello World!') </script> " !!} --}}
-
-{{-- comment statment --}}
-
-@php
-    $user = "Anil Tamang"; 
+{{-- @php
+    $fruits = ['apple', 'banana', 'orange'];
+    
 @endphp
 
-{{ $user }}
+@include('pages.header',['name' => 'Spriment']) --}}
 
-<br>
+{{-- @php
+    $fruits = ['apple', 'banana', 'orange'];
+    
+@endphp --}}
 
-{{-- using arrar eg --}}
-@php
-    $names = ["Salman Khan", "John Cena", "Shail kapoor"];
-    $user2 = "Anil Tamang"; 
+{{-- @php
+    $fruits = ["one"=>"apple", "two"=>"banana", "three"=>'orange'];
+    
+@endphp --}}
+
+{{-- @php
+    $fruits = [];
+    
 @endphp
 
-<ul>
-@foreach ( $names as $n)
-    <li>{{ $n }}</li>
-@endforeach
-</ul>
-@{{ $user2 }}
 
-<br>
-@@if()
+@include('pages.header',['names' => $fruits])
 
-<br>
-<br>
-{{" using loop index + foreach loop + array" }}
-@php
-    $names = ["Salman Khan", "John Cena", "Shail kapoor","Salman Khan", "John Cena", "Shail kapoor"];
-    $user2 = "Anil Tamang"; 
+@include('pages.footer')
+
+@includeIf('pages.content') //check id there is content page  --}}
+
+{{-- including subviews with conditional check --}}
+{{-- @php
+    $fruits = ["one"=>"apple", "two"=>"banana", "three"=>'orange'];
+    $boolean =true;
 @endphp
+@includeWhen($boolean,'pages.header',['names' => $fruits])
 
-<ul>
-@foreach ( $names as $n)
-    {{-- <li>{{ $loop->index}} - {{$n}}</li> --}}
-    {{-- <li>{{ $loop->iteration}} - {{$n}}</li> --}}
-    {{-- <li>{{ $loop->count}} - {{$n}}</li> --}}
+@include('pages.footer')
 
-    @if ($loop->first)
-    <li style="color: red;">{{$n}}</li>
-    @elseif ($loop->last)
-    <li style="color: green">{{$n}}</li>
-    @else
-    <li>{{$n}}</li>
-    @endif
-    
-@endforeach
-</ul>
+@includeIf('pages.content') --}}
 
-<br><br>
-{{ "even or odd eg" }}
-<ul>
-    @foreach ( $names as $n)
-        {{-- <li>{{ $loop->index}} - {{$n}}</li> --}}
-        {{-- <li>{{ $loop->iteration}} - {{$n}}</li> --}}
-        {{-- <li>{{ $loop->count}} - {{$n}}</li> --}}
-    
-        @if ($loop->even)
-        <li style="color: red;">{{$n}}</li>
-        @elseif ($loop->odd)
-        <li style="color: green">{{$n}}</li>
-        @endif
-        
-    @endforeach
-    </ul>
-    
+{{-- @php
+    $fruits = ["one"=>"apple", "two"=>"banana", "three"=>'orange'];
+    $value ="";
+@endphp
+@includeWhen(empty($value),'pages.header',['names' => $fruits])
+
+@include('pages.footer')
+
+@includeIf('pages.content') --}}
+
+{{-- @php
+    $fruits = ["one"=>"apple", "two"=>"banana", "three"=>'orange'];
+    $value ="";
+@endphp
+@includeUnless(empty($value),'pages.header',['names' => $fruits]) --}}
 
 
-{{-- time stamp: 19:25 how to use laravel balde snippet extension usefulway --}}
-{{-- <a href="{{route('mypost') }}">Post Page </a>
-<a href="{{route('myabout') }}">About Page </a> --}}
+
+{{-- @include('pages.welcome2') --}}
+{{-- 
+@includeIf('pages.content')
+
+@include('pages.footer') --}}
