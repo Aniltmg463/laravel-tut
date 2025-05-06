@@ -10,18 +10,18 @@
 <body>
   <div id="wrapper">
     <header>
-      <h1>YahooBaba</h1>
+      <h1>Contact Page</h1>
       <nav>
         <a href="#">Home</a> |
         <a href="/about">About</a> |
         <a href="/post">Post Services</a> |
-        <a href="#">Contact</a>
+        <a href="/contact">Contact</a>
       </nav>
     </header>
 
     <main>
       <article>
-        <h1>About Page</h1>
+        <h1>Contact Page</h1>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti dolores, doloribus accusamus velit debitis
           accusantium quae tenetur aliquam at laborum ullam assumenda nulla blanditiis. Veniam delectus magni quisquam numquam
@@ -35,10 +35,10 @@
 
       <aside>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li>  <a href="/about">About</a></li>
-          <li>  <a href="/post">Post Services</a></li>
-          <li>  <a href="/contact">Contact</a></li>
+            <li><a href="/">Home</a></li>
+            <li>  <a href="/about">About</a></li>
+            <li>  <a href="/post">Post Services</a></li>
+            <li>  <a href="/contact">Contact</a></li>
         </ul>
       </aside>
     </main>
@@ -53,7 +53,7 @@
 
 @include('pages.header')
       <article>
-        <h1>About Page</h1>
+        <h1>Contact Page</h1>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti dolores, doloribus accusamus velit debitis
           accusantium quae tenetur aliquam at laborum ullam assumenda nulla blanditiis. Veniam delectus magni quisquam numquam
