@@ -1,0 +1,122 @@
+Laravel Resource controller Tutorial in Hindi / Urdu :part30
+
+##)yt : https://www.youtube.com/watch?v=RJqrLhwOIF8&list=PL0b6OzIxLPbz7JK_YYrRJ1KxlGG4diZHJ&index=30
+
+Laravel : Types of controller
+1)Basic Controller
+2)Single Action Controller
+3)Resource Controller
+
+1)Basic Controller:
+php artisan make:controller UserController
+
+2)Single Action Controller
+php artisan make:controller UserController --invokable
+
+3)Resource Controller
+php artisan make:controller UserController --resource
+
+//resource controller (auto created: create ,Read, Update, Delete in UserController.php)
+-> php artisan route:list --name=users
+
+✅ 2. Route::resource('users', UserController::class);
+Purpose: Automatically defines multiple RESTful routes for common CRUD operations.
+
+Actions Created:
+
+HTTP Verb URI Action Route Name
+GET /users index users.index
+GET /users/create create users.create
+POST /users store users.store
+GET /users/{user} show users.show
+GET /users/{user}/edit edit users.edit
+PUT/PATCH /users/{user} update users.update
+DELETE /users/{user} destroy users.destroy
+
+> > Code :
+> > routes/web.app
+
+use App\Http\Controllers\UserController;
+Route::resource('users',UserController::class); //use for all method
+Route::resource('users',UserController::class)->only(['create','update','show']); //for using specific method only
+Route::resource('users',UserController::class)->except(['create','update','show']); //expcept define method other can use
+Route::resource('users',UserController::class)->names(['create' => 'users.build','show' => 'users.view']); //for renaming routes name create to build
+
+//resource controller
+
+> > php artisan --version
+> > php artisan make:controller UserController --resource
+> > php artisan route:list --name=users
+
+> > TO rename project name form exmple-app to RS Resource
+> > APP_NAME="RS Resource"
+> > php artisan config:clear
+> > php artisan config:cache
+
+time: 21:20sec
+//Laravel : Route for Multiple Resource Conroller
+
+1. Single Resource Controller Route
+   -> Route::resource('users',UserController::class);
+
+2. Multiple Resouce Controller Route
+   -> Route::resource([
+   'users' => UserController::class,
+   'post' => PostController::class
+   ]);
+
+3. Nested Resources //time: 22 min
+   > > Routes/web.php
+   > > use App\Http\Controllers\UserCommentContoller;
+
+User-->Comments
+Route::resource('users.comments',UserCommentController::class);
+
+> > php artisan make:controller CommentController --resource
+> > php artisan route:list --name=comments
+
+note for shallow method:
+
+- > 🔍 Without shallow():
+  > php
+  > Copy
+  > Edit
+  > Route::resource('users.comments', CommentController::class);
+  > This creates fully nested routes, like:
+
+Method URI Action
+GET /users/{user}/comments index
+GET /users/{user}/comments/create create
+POST /users/{user}/comments store
+GET /users/{user}/comments/{comment} show
+PUT /users/{user}/comments/{comment} update
+DELETE /users/{user}/comments/{comment} destroy
+
+✅ With ->shallow():
+php
+Copy
+Edit
+Route::resource('users.comments', CommentController::class)->shallow();
+This tells Laravel:
+
+Use the full nested route only for routes that need the parent (user) — like index, create, store.
+For routes that act on a single comment, remove the user part from the URL.
+
+Resulting routes:
+Method URI Action
+GET /users/{user}/comments index
+GET /users/{user}/comments/create create
+POST /users/{user}/comments store
+GET /comments/{comment} show
+PUT /comments/{comment} update
+DELETE /comments/{comment} destroy
+
+✅ Why use shallow()?
+Cleaner URLs for show/edit/update/delete:
+
+Instead of /users/5/comments/10, you just use /comments/10.
+
+Less redundancy and easier route handling.
+
+🧠 When to use:
+Use ->shallow() when the child resource (like Comment) can be uniquely identified without needing the parent (User) for certain operations.
