@@ -13,8 +13,9 @@ class PostController extends Controller
     public function index()
     {
         //type 1
-        // $post = post::all();
+        $post = post::all();
         // return $post;  //return in json format
+        return view("home", compact('post')); //return in welcome page
 
         //type 2
         // $post = post::all();
@@ -130,12 +131,12 @@ class PostController extends Controller
         // return $post;
         return view("welcome", compact('post')); */
 
-        //type18 using whereIn
+        /* //type18 using whereIn
         // $post = post::whereIn('city', ['West Veda', 'Dibbertfort'])
         $post = post::whereNotIn('city', ['West Veda', 'Dibbertfort'])
             ->get();
         // return $post;
-        return view("welcome", compact('post'));
+        return view("welcome", compact('post')); */
     }
 
 
@@ -146,23 +147,77 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("adduser");
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+
     {
-        //
+
+        // return $request; //return in json format
+
+        /* //method 1 this is popular method
+        $post = new post;
+        $post->name = $request->username;
+        $post->email = $request->useremail;
+        $post->age = $request->userage;
+        $post->city = $request->usercity;
+
+        $post->save();
+
+        return redirect()->route('post.index')->with('status', 'New User added Successfully'); */
+
+        //method 2 Mass assignment use to make code less
+
+        //validation
+        $request->validate([
+            'username' => 'required|alpha',
+            'useremail' => 'required|email',
+            'userage' => 'required|numeric',
+            'usercity' => 'required|alpha',
+        ]);
+
+        post::create(
+            [
+                'name' => $request->username,
+                'email' => $request->useremail,
+                'age' => $request->userage,
+                'city' => $request->usercity,
+
+            ]
+            // ,[
+            //         'name' => $request->username,
+            //         'email' => $request->useremail,
+            //         'age' => $request->userage,
+            //         'city' => $request->usercity,
+
+            //     ]
+
+            // ,[
+            //         'name' => $request->username,
+            //         'email' => $request->useremail,
+            //         'age' => $request->userage,
+            //         'city' => $request->usercity,
+
+            //     ]
+        );
+
+
+        return redirect()->route('post.index')->with('status', 'New User added Successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(post $post)
+    public function show(string $id)
     {
-        //
+        $posts = post::find($id);
+        // return $posts;
+
+        return view("viewuser", compact('posts'));
     }
 
     /**
@@ -170,22 +225,54 @@ class PostController extends Controller
      */
     public function edit(post $post)
     {
-        //
+        $posts = post::find($post->id);
+        return view("updateuser", compact('posts'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, post $post)
+    public function update(Request $request, string $id)
     {
-        //
+        $post = post::find($id);
+
+        //method 1 aslo simple method : this is popular method that username,useremail etc are come from name field of form
+        /*  $post->name = $request->username;
+        $post->email = $request->useremail;
+        $post->age = $request->userage;
+        $post->city = $request->usercity;
+
+        $post->save();
+        return redirect()->route('post.index')->with('status', 'User Updated Successfully'); */
+
+
+        //Method 2 : mass update method
+
+        $request->validate([
+            'username' => 'required|string',
+            'useremail' => 'required|email',
+            'userage' => 'required|numeric',
+            'usercity' => 'required|alpha',
+        ]);
+
+        $post = post::where('id', $id)->update([
+            'name' => $request->username,
+            'email' => $request->useremail,
+            'age' => $request->userage,
+            'city' => $request->usercity,
+        ]);
+
+        return redirect()->route('post.index')->with('status', 'User Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(post $post)
+    public function destroy(string $id)
     {
-        //
+        $posts = post::find($id);
+        $posts->delete();
+
+        return redirect()->route('post.index')->with('status', 'User Deleted Successfully');
     }
 }
