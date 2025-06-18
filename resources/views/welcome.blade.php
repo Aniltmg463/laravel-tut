@@ -1,5 +1,10 @@
-{{ Hello ! Guys }}
+<x-layout>
+    <h1 class="text-3xl">This is HomePage</h1>
 
 
-<a href="{{ route('post.index') }}" class="btn btn-info btn-sm">Go to Post Page</a>
 
+
+
+
+
+</x-layout>
