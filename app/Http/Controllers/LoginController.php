@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Correct import of the Auth facade
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Expr\FuncCall;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,20 @@ class LoginController extends Controller
 
         // Redirect the user to the intended page (or welcome page)
         return redirect()->route('dashboard'); // Ensure the 'welcome' route exists
+    }
+
+    //       public function logout(Request $request)
+    //   {
+    //       Auth::logout();
+
+    //       $request->session()->invalidate();
+    //       $request->session()->regenerateToken();
+
+    //       return redirect()->route('login');
+    //   }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
