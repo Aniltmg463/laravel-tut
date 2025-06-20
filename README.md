@@ -11,13 +11,13 @@
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   [Simple, fast routing engine](https://laravel.com/docs/routing).
+-   [Powerful dependency injection container](https://laravel.com/docs/container).
+-   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+-   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+-   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+-   [Robust background job processing](https://laravel.com/docs/queues).
+-   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
@@ -35,14 +35,14 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   **[Vehikl](https://vehikl.com)**
+-   **[Tighten Co.](https://tighten.co)**
+-   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+-   **[64 Robots](https://64robots.com)**
+-   **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+-   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+-   **[Redberry](https://redberry.international/laravel-development)**
+-   **[Active Logic](https://activelogic.com)**
 
 ## Contributing
 
@@ -58,6 +58,89 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). 
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ![image alt](https://github.com/Aniltmg463/laravel-tut/blob/a3503fd572b9dc844602af88955f789c59734056/public/assets/Screenshot%202025-06-18%20195053.png)
+
+## Step-by-Step Guide to Using Seeders
+
+step 1: Create a Seeder File
+php artisan make:seeder UserSeeder
+
+This creates a file at:
+database/seeders/UserSeeder.php
+
+step2: Define Data in the Seeder
+Edit UserSeeder.php:
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+public function run(): void
+{
+User::create([
+'name' => 'Admin User',
+'email' => 'admin@example.com',
+'password' => Hash::make('password'),
+]);
+}
+}
+
+step3: Register Seeder in DatabaseSeeder
+Open database/seeders/DatabaseSeeder.php and add your seeder inside the run() method:
+
+public function run(): void
+{
+$this->call([
+UserSeeder::class,
+]);
+}
+
+step4: Run the Seeder
+Run this Artisan command:
+
+php artisan db:seed
+
+This will execute the DatabaseSeeder, which calls UserSeeder.
+
+✅ Optional: Run a Specific Seeder Only
+
+php artisan db:seed --class=UserSeeder
+✅ Bonus: Fresh Migration with Seeding
+If you want to reset your database and re-run migrations and seeders:
+
+php artisan migrate:fresh --seed
+Let me know if you'd like help using Faker to generate dummy data, or to seed related tables (e.g., users with
+
+## using factory to generate 10 random user
+
+step1: php artisan make:seeder UserSeeder
+
+step2:
+database/seeders/UserSeeder.php:
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class UserSeeder extends Seeder
+{
+public function run(): void
+{
+User::factory()->count(10)->create();
+}
+}
+
+step3:
+DatabaseSeeder.php:
+public function run(): void
+{
+$this->call([
+UserSeeder::class,
+]);
+}
+
+step4:
+php artisan db:seed
+
+optional: php artisan migrate:fresh --seed
