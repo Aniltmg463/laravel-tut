@@ -112,4 +112,13 @@ $user = App\Models\User::first();
 $decrypted = Crypt::decrypt($user->password);
 echo $decrypted;
 
+##
+| Task              | Command                            |
+| ----------------- | ---------------------------------- |
+| Drop all tables   | `php artisan db:wipe`              |
+| Re-run migrations | `php artisan migrate`              |
+| Drop and re-run   | `php artisan migrate:fresh`        |
+| Fresh + Seed      | `php artisan migrate:fresh --seed` |
+
+
 
